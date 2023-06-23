@@ -186,10 +186,13 @@ class ResultSet(object):
         :return: Generator of dicts
         """
         for point in series.get('values', []):
-            yield self.point_from_cols_vals(
-                series['columns'],
-                point
-            )
+            yield {
+                **self.point_from_cols_vals(
+                    series['columns'],
+                    point
+                ),
+                **series.get('tags', {})
+            }
 
     @staticmethod
     def point_from_cols_vals(cols, vals):
